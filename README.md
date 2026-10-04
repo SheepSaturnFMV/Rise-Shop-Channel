@@ -12,6 +12,7 @@ The Wii client is still in development. This repository now includes the catalog
 - `repo/index.json` is the generated catalog file the Wii client can download.
 - `repo/schema/app.schema.json` documents the app metadata format.
 - `scripts/build-catalog.mjs` validates app metadata and rebuilds the catalog index.
+- `tools/catalog-manager.html` is a browser tool for creating metadata files and browsing the generated catalog.
 
 ## Publishing workflow
 
@@ -20,9 +21,9 @@ To add a curated app or game:
 1. Find the official homebrew release page or download link.
 2. Confirm the app is legal to redistribute or link to.
 3. Test the app on a Wii or a realistic Wii homebrew setup.
-4. Copy `repo/apps/_example.json` to `repo/apps/app-id.json`.
-5. Replace the example values with the real app information.
-6. Add asset links or local asset paths if you have an icon or screenshots.
+4. Open `tools/catalog-manager.html` in a browser and fill out the metadata form.
+5. Download the generated JSON file.
+6. Put that file in `repo/apps/`.
 7. Run the catalog build:
 
 ```sh
@@ -32,6 +33,8 @@ npm run build:catalog
 That command validates every real app metadata file and updates `repo/index.json`.
 
 Files in `repo/apps/` that start with `_` are treated as examples or templates. They are not published into `repo/index.json`.
+
+You can also copy `repo/apps/_example.json` by hand if you prefer editing JSON directly.
 
 ## App metadata
 
@@ -90,6 +93,8 @@ Rise-Shop-Channel/
 │       └── app.schema.json
 ├── scripts/
 │   └── build-catalog.mjs
+├── tools/
+│   └── catalog-manager.html
 ├── package.json
 └── README.md
 ```
