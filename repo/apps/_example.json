@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/app.schema.json",
+  "id": "example-homebrew",
+  "name": "Example Homebrew",
+  "author": "Example Developer",
+  "version": "1.0.0",
+  "category": "games",
+  "description": "Example only. Replace this with a short description of the app before publishing a real entry.",
+  "license": "Example license",
+  "website": "https://example.com/example-homebrew",
+  "source": "https://example.com/example-homebrew/source",
+  "download": {
+    "url": "https://example.com/example-homebrew.zip",
+    "type": "zip",
+    "install_path": "apps/example-homebrew",
+    "sha256": ""
+  },
+  "assets": {
+    "icon": "",
+    "screenshots": []
+  },
+  "requires_original_files": false,
+  "original_files_note": "",
+  "curation": {
+    "status": "example",
+    "tested_on": "Example only. Do not publish this entry.",
+    "notes": "Files whose names start with an underscore are ignored by the generated catalog."
+  }
+}

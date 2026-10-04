@@ -1,46 +1,101 @@
 # Rise Shop Channel
 
-A curated homebrew store for the Nintendo Wii.
+Rise Shop Channel is a curated homebrew store for the Nintendo Wii.
 
-Rise Shop Channel lets you browse, download, and install homebrew directly from your Wii. Instead of trying to host every piece of Wii homebrew ever made, the catalog focuses on software that's actually useful, fun, or worth having installed.
+The goal is not to mirror every Wii homebrew release. The catalog should stay small enough to review, test, and trust. Apps should be useful, fun, maintained enough to install cleanly, and legal to distribute or link to.
 
-## Features
+## Current status
 
-- Browse homebrew directly from your Wii
-- Download and install apps
-- Search the catalog
-- Browse by category
-- Update supported apps
-- Curated selection of homebrew
+The Wii client is still in development. This repository now includes the catalog structure that the client can use later:
 
-## What's on the store?
+- `repo/apps/` contains one metadata file per app.
+- `repo/index.json` is the generated catalog file the Wii client can download.
+- `repo/schema/app.schema.json` documents the app metadata format.
+- `scripts/build-catalog.mjs` validates app metadata and rebuilds the catalog index.
 
-Rise Shop Channel will include things like:
+## Publishing workflow
+
+To add a curated app or game:
+
+1. Find the official homebrew release page or download link.
+2. Confirm the app is legal to redistribute or link to.
+3. Test the app on a Wii or a realistic Wii homebrew setup.
+4. Copy `repo/apps/_example.json` to `repo/apps/app-id.json`.
+5. Replace the example values with the real app information.
+6. Add asset links or local asset paths if you have an icon or screenshots.
+7. Run the catalog build:
+
+```sh
+npm run build:catalog
+```
+
+That command validates every real app metadata file and updates `repo/index.json`.
+
+Files in `repo/apps/` that start with `_` are treated as examples or templates. They are not published into `repo/index.json`.
+
+## App metadata
+
+Each app gets one JSON file in `repo/apps/`. The filename should match the app ID:
+
+```text
+repo/apps/wiixplorer.json
+```
+
+The `id` should be lowercase and stable. Use letters, numbers, and hyphens only.
+
+The `download.url` should point to the official release when possible. If this repository hosts a package later, the package must only contain files that are legal to redistribute. Do not include copyrighted commercial game files.
+
+Ports that need original game data are allowed only when the commercial files are not included. Set `requires_original_files` to `true` and explain what the user needs in `original_files_note`.
+
+## Curated rules
+
+Rise Shop Channel should prefer:
 
 - Homebrew games
 - Emulators
-- High-quality ports
+- Open-source ports
 - Utilities and system tools
 - Media apps
 - Launchers
-- Other useful or interesting Wii homebrew
+- Apps that install cleanly into `/apps/app-id/`
 
-The store is curated. Apps aren't automatically accepted just because they exist.
+Do not add:
 
-Low-effort joke apps, broken software, duplicates, and other stuff that doesn't really do anything useful won't be included.
+- Commercial game files
+- Pirated software
+- ROMs, ISOs, WADs, or BIOS files
+- Broken or abandoned releases that do not install cleanly
+- Duplicate apps unless there is a clear reason
+- Joke apps that do not provide real value
 
-## Current Status
+## Validation
 
-Rise Shop Channel is currently in development.
+Run this before committing catalog changes:
 
-The client, repository system, and initial catalog are still being worked on, so expect things to change.
+```sh
+npm run validate:catalog
+```
 
-## Contributing
+Validation checks required fields, app IDs, duplicate IDs, download URLs, and install paths. GitHub Actions also runs the same check on pushes and pull requests.
 
-Suggestions for homebrew to add are welcome, but submitting something does not guarantee that it'll be added to the store.
+## Repository layout
 
-More information about contributing will be added once the repository format is finalized.
+```text
+Rise-Shop-Channel/
+├── repo/
+│   ├── apps/
+│   │   └── _example.json
+│   ├── index.json
+│   └── schema/
+│       └── app.schema.json
+├── scripts/
+│   └── build-catalog.mjs
+├── package.json
+└── README.md
+```
 
----
+## License and copyright
 
-**Homebrew worth having.**
+Only add files that this repository has permission to distribute.
+
+When in doubt, link to the official download instead of copying the file into this repository.
